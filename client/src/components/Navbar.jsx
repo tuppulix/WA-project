@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChatDots, PersonCircle } from 'react-bootstrap-icons';
 import { useUser } from '../context/UserContext';
 
-
-function NavbarComponent({}) {
+function NavbarComponent() {
   const navigate = useNavigate();
-  const { user, handleLogout } = useUser(); // Access user context
-  // Inline style definitions for reusability and clarity
+  const { user, handleLogout } = useUser();
+
+  // Inline style definitions
   const styles = {
     navbar: {
       background: 'linear-gradient(90deg, #002B5B, #1A5276)', // forum-style blue gradient
@@ -36,12 +36,22 @@ function NavbarComponent({}) {
       padding: '6px 14px',
       borderRadius: '8px',
     },
-    userText: {
-      color: '#a0e9fd',
-      fontSize: '0.95rem',
+    userContainer: {
+      backgroundColor: '#1A1A1A',    // un grigio scuro per staccare leggermente
+      padding: '4px 12px',           // più spazio verticale per non "stringere" il testo
+      borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
+    },
+    userName: {
+      color: '#a0e9fd',
+      fontSize: '1rem',              // leggermente più grande per maggiore leggibilità
+      whiteSpace: 'nowrap',          // evita il wrapping su più righe
+    },
+    adminBadge: {
+      fontSize: '0.7rem',
+      marginLeft: '6px',
     },
   };
 
@@ -84,26 +94,18 @@ function NavbarComponent({}) {
           {user ? (
             <>
               {/* Logged-in user display */}
-              <div className="d-flex align-items-center gap-2 bg-dark px-3 py-1 rounded-3">
-                {/* Icon + name */}
+              <div style={styles.userContainer}>
                 <PersonCircle size={20} color="#a0e9fd" />
-                <div className="d-flex flex-column">
-                  <span style={{ color: '#a0e9fd', fontSize: '0.95rem' }}>
-                    <strong>{user.name}</strong>
-                  </span>
+                <span style={styles.userName} className="text-nowrap">
+                  <strong>{user.name}</strong>
+                </span>
 
-                  {/* Admin badge shown only if authenticated as admin */}
-                  {user.is_admin && user.isAdminAuthenticated && (
-                    <Badge
-                      bg="warning"
-                      text="dark"
-                      className="mt-1"
-                      style={{ fontSize: '0.7rem', width: 'fit-content' }}
-                    >
-                      Admin
-                    </Badge>
-                  )}
-                </div>
+                {/* Admin badge shown only if authenticated as admin */}
+                {user.is_admin && user.isAdminAuthenticated && (
+                  <Badge bg="warning" text="dark" style={styles.adminBadge}>
+                    Admin
+                  </Badge>
+                )}
               </div>
 
               {/* Logout button */}

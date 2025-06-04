@@ -1,3 +1,5 @@
+### === AUTHENTICATION ===
+
 ### Login as admin WITHOUT 2FA (treated as normal user)
 POST http://localhost:3001/api/sessions
 Content-Type: application/json
@@ -16,7 +18,7 @@ Content-Type: application/json
 {
   "email": "marta.rossi@example.com",
   "password": "sunshine123",
-  "otp": "729736"  
+  "otp": "729736"
 }
 
 ###
@@ -29,7 +31,9 @@ GET http://localhost:3001/api/sessions/current
 ### Logout user
 DELETE http://localhost:3001/api/sessions/current
 
-###
+---
+
+### === POSTS ===
 
 ### Get all posts
 GET http://localhost:3001/api/posts
@@ -41,7 +45,7 @@ GET http://localhost:3001/api/posts/1
 
 ###
 
-### Add a new post
+### Add a new post (requires login)
 POST http://localhost:3001/api/posts
 Content-Type: application/json
 
@@ -61,14 +65,21 @@ DELETE http://localhost:3001/api/posts/1
 ### Delete ANY post as ADMIN (replace :id with actual post ID)
 DELETE http://localhost:3001/api/admin/posts/1
 
+---
+
+### === COMMENTS ===
+
+### Get comments for a post (replace :id)
+GET http://localhost:3001/api/posts/1/comments
+
 ###
 
-### Get comments for a post (requires login) (replace :id)
-GET http://localhost:3001/api/posts/4/comments
+### Get comment count for a post
+GET http://localhost:3001/api/posts/1/comments/count
 
 ###
 
-### Add a comment to a post (replace :id with actual post ID)
+### Add a comment to a post (replace :id)
 POST http://localhost:3001/api/posts/1/comments
 Content-Type: application/json
 
@@ -78,7 +89,7 @@ Content-Type: application/json
 
 ###
 
-### Edit own comment (replace :id with actual comment ID)
+### Edit own comment (replace :id)
 PUT http://localhost:3001/api/comments/1
 Content-Type: application/json
 
@@ -88,12 +99,7 @@ Content-Type: application/json
 
 ###
 
-###
-GET  http://localhost:3001/api/posts/1/comments/count
-
-
-
-### Edit ANY comment as ADMIN (replace :id with actual comment ID)
+### Edit ANY comment as ADMIN (replace :id)
 PUT http://localhost:3001/api/admin/comments/1
 Content-Type: application/json
 
@@ -111,17 +117,19 @@ DELETE http://localhost:3001/api/comments/1
 ### Delete ANY comment as ADMIN (replace :id)
 DELETE http://localhost:3001/api/admin/comments/1
 
-###
+---
 
-### Add \"interesting\" flag to a comment (replace :id)
+### === INTERESTING FLAGS ===
+
+### Add "interesting" flag to a comment (replace :id)
 POST http://localhost:3001/api/comments/1/flag
 
 ###
 
-### Remove \"interesting\" flag (replace :id)
+### Remove "interesting" flag (replace :id)
 DELETE http://localhost:3001/api/comments/1/flag
 
 ###
 
-### Get all \"interesting\" flags for logged user
+### Get all "interesting" flags for logged-in user
 GET http://localhost:3001/api/users/me/flags

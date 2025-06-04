@@ -50,7 +50,7 @@ export default function PostPage() {
         setPost(p);
         // If user is logged in, load comments; always load comment count
         return Promise.all([
-          currentUser ? loadComments() : Promise.resolve(),
+          loadComments(),      // sempre carica i commenti, anche per anonimi
           loadCommentCount()
         ]);
       })
@@ -94,13 +94,13 @@ export default function PostPage() {
       {/* If user is not logged in, show a message but allow adding a comment */}
       {!currentUser && (
         <Alert variant="info" className="mb-3">
-          You must <strong>log in</strong> to view comments. But you can still add one!
+          You must <strong>log in</strong> to view author comments. But you can still add one!
         </Alert>
 
       )}
 
       {/* If user is logged in, show the list of comments */}
-      {currentUser && (
+      {comments.length > 0 && (
         <CommentList
           postId={id}
           comments={comments}
@@ -110,6 +110,7 @@ export default function PostPage() {
           }}
         />
       )}
+
 
       {/* Show the comment form for adding a new comment */}
       <CommentForm
