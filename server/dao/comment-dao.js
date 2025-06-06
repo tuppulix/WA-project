@@ -10,8 +10,8 @@ exports.getCommentsByPost = (postId) =>
     const sql = `
       SELECT C.id, C.text, C.timestamp, C.author_id, C.edited,
              U.name AS author,
-             (SELECT COUNT(*) FROM InterestingFlags IF
-              WHERE IF.comment_id = C.id) AS interesting_count
+             (SELECT COUNT(*) FROM InterestingFlags F
+              WHERE F.comment_id = C.id) AS interesting_count
       FROM Comments C
       LEFT JOIN Users U ON C.author_id = U.id
       WHERE C.post_id = ?

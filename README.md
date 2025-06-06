@@ -198,6 +198,7 @@ Composite primary key: (`user_id`, `comment_id`)
 ## Screenshot
 
 ![Screenshot](./img/screenshot.png)
+![Screenshot](./img/screenshot2.png)
 
 ## Users Credentials Admin
 

@@ -13,17 +13,17 @@ function CommentList({ comments, refreshComments }) {
   /* ───────────────────────── state/context ───────────────────────── */
   const { user: currentUser } = useUser();
 
-  const [userFlags,    setUserFlags]    = useState([]);
-  const [localComms,   setLocalComms]   = useState(comments);
-  const [editingId,    setEditingId]    = useState(null);
-  const [editText,     setEditText]     = useState('');
+  const [userFlags, setUserFlags] = useState([]);
+  const [localComms, setLocalComms] = useState(comments);
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState('');
 
   /* ───────────────────────── effects ───────────────────────── */
   useEffect(() => setLocalComms(comments), [comments]);
 
   useEffect(() => {
     if (currentUser)
-      API.getUserFlags().then(setUserFlags).catch(() => {});
+      API.getUserFlags().then(setUserFlags).catch(() => { });
   }, [currentUser]);
 
   const isAdmin = currentUser?.is_admin && currentUser?.isAdminAuthenticated;
@@ -43,7 +43,7 @@ function CommentList({ comments, refreshComments }) {
         )
       );
       refreshComments?.();
-    } catch {/* ignore */}
+    } catch {/* ignore */ }
   };
 
   const handleDelete = async (c) => {
@@ -52,7 +52,7 @@ function CommentList({ comments, refreshComments }) {
         ? await API.adminDeleteComment(c.id)
         : await API.deleteComment(c.id);
       refreshComments?.();
-    } catch {/* ignore */}
+    } catch {/* ignore */ }
   };
 
   const handleSave = async (c) => {
@@ -64,22 +64,22 @@ function CommentList({ comments, refreshComments }) {
         : await API.editComment(c.id, txt);
       setEditingId(null);
       refreshComments?.();
-    } catch {/* ignore */}
+    } catch {/* ignore */ }
   };
 
   /* ───────────────────────── render ───────────────────────── */
   return (
     <ListGroup className="mb-4">
       {localComms.map(c => {
-        const flagged  = userFlags.includes(c.id);
-        const canEdit  = currentUser && (c.author_id === currentUser.id || isAdmin);
-        const editing  = editingId === c.id;
+        const flagged = userFlags.includes(c.id);
+        const canEdit = currentUser && (c.author_id === currentUser.id || isAdmin);
+        const editing = editingId === c.id;
 
         return (
           <ListGroup.Item key={c.id} className="d-flex flex-column gap-1">
-            {/* ---------- riga principale ---------- */}
+            {/* ---------- main row ---------- */}
             <div className="d-flex justify-content-between">
-              {/* testo e autore */}
+              {/* Author and text */}
               <span className="flex-grow-1">
                 <strong>{c.author || 'Anonymous'}:</strong>{' '}
                 {editing ? (
@@ -94,29 +94,35 @@ function CommentList({ comments, refreshComments }) {
                 ) : (
                   c.text.split('\n').map((l, i) => (
                     <React.Fragment key={i}>
-                      {l}<br/>
+                      {l}<br />
                     </React.Fragment>
                   ))
                 )}
               </span>
 
-              {/* icone azioni */}
+              {/* Action icons */}
               <div className="ms-2 d-flex flex-column align-items-end">
-                {/* flag interessante */}
-                {currentUser ? (
-                  <Button
-                    variant="light"
-                    size="sm"
-                    className="border-0 p-0 mb-1"
-                    style={{ lineHeight: 0 }}
-                    title={flagged ? 'Remove flag' : 'Mark as interesting'}
-                    onClick={() => toggleFlag(c, flagged)}
-                  >
-                    {flagged ? <StarFill/> : <Star/>}
-                  </Button>
-                ) : (
-                  <Star className="text-muted" />
-                )}
+                {/* Flag icon + count */}
+                <div className="d-flex align-items-center gap-1 mb-1">
+                  {currentUser ? (
+                    <Button
+                      variant="light"
+                      size="sm"
+                      className="border-0 p-0"
+                      style={{ lineHeight: 0 }}
+                      title={flagged ? 'Remove flag' : 'Mark as interesting'}
+                      onClick={() => toggleFlag(c, flagged)}
+                    >
+                      {flagged ? <StarFill className="text-warning" /> : <Star className="text-secondary" />}
+                    </Button>
+                  ) : (
+                    <span title="Only logged-in users can mark comments">
+                      <Star className="text-muted" />
+                    </span>
+                  )}
+                  <span className="text-muted small">{c.interesting_count}</span>
+                </div>
+
 
                 {/* edit / delete */}
                 {canEdit ? (
@@ -141,14 +147,14 @@ function CommentList({ comments, refreshComments }) {
                           variant="outline-primary"
                           onClick={() => { setEditingId(c.id); setEditText(c.text); }}
                         >
-                          <PencilSquare/>
+                          <PencilSquare />
                         </Button>
                         <Button
                           size="sm"
                           variant="outline-danger"
                           onClick={() => handleDelete(c)}
                         >
-                          <Trash/>
+                          <Trash />
                         </Button>
                       </>
                     )}
