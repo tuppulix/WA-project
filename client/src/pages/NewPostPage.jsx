@@ -95,7 +95,7 @@ function NewPostPage() {
               <Form.Label className="fw-semibold">Maximum Comments (optional)</Form.Label>
               <Form.Control
                 type="number"
-                min="1"
+                min="0"
                 placeholder="e.g. 10"
                 value={maxComments}
                 onChange={(e) => setMaxComments(e.target.value)}

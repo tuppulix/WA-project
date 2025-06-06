@@ -32,7 +32,7 @@ router.get('/posts/:id', async (req, res) => {
 router.post('/posts', isLoggedIn, [
   check('title').trim().notEmpty(),
   check('text').trim().notEmpty(),
-  check('maxComments').optional().isInt({ min: 1 })
+  check('maxComments').optional().isInt({ min: 0 })
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });

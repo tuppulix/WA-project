@@ -96,10 +96,14 @@ export default function HomePage() {
                 {/* Left column: post title and author information */}
                 <Col xs={12} md={8}>
                   <h5 className="mb-1 text-dark">{post.title}</h5>
+                  <p className="mb-2 text-secondary small" style={{ whiteSpace: 'pre-wrap' }}>
+                    {post.text.length > 200 ? post.text.slice(0, 200) + '…' : post.text}
+                  </p>
                   <small className="text-muted">
                     By <strong>{post.author || 'Anonymous'}</strong> •{' '}
                     {dayjs(post.timestamp).format(fmt)}
                   </small>
+
                 </Col>
 
                 {/* Right column: comment icon and comment count, with tooltip */}
