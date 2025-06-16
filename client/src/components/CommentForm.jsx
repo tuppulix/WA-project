@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Form, Button, Alert, Card } from 'react-bootstrap';
 import API from '../api/api';
 
-function CommentForm({ postId, onCommentAdded, maxComments, currentCount }) {
+
+export default function CommentForm({ postId, onCommentAdded, maxComments, currentCount }) {
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -49,7 +50,7 @@ function CommentForm({ postId, onCommentAdded, maxComments, currentCount }) {
         {error && <Alert variant="danger">{error}</Alert>}
         {limitReached && (
           <Alert variant="warning" className="py-1">
-            ⚠️ You cannot add more comments to this post.
+             You cannot add more comments to this post.
           </Alert>
         )}
 
@@ -81,5 +82,4 @@ function CommentForm({ postId, onCommentAdded, maxComments, currentCount }) {
     </Card>
   );
 }
-
-export default CommentForm;
+ 

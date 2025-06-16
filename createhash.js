@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-// Funzione che genera salt e hash per una password
+// Function to generate a hash from a password using scrypt
 function generateHash(password) {
   return new Promise((resolve, reject) => {
     const salt = crypto.randomBytes(16).toString('hex');
@@ -11,7 +11,7 @@ function generateHash(password) {
   });
 }
 
-// Esempio: genera hash per password di fantasia
+// Example: generate hash for sample passwords
 async function main() {
   const users = [
     { email: 'marta.rossi@example.com', password: 'sunshine123' },

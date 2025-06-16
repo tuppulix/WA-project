@@ -7,7 +7,7 @@ import { PencilSquare } from 'react-bootstrap-icons';
 // This component renders the page for creating a new forum post.
 // It includes a form where the user can enter the post title, content, and optionally set a maximum number of comments.
 // On successful creation, the user is redirected to the new post's detail page.
-function NewPostPage() {
+export default function NewPostPage() {
   // State variables for form fields and error handling
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
@@ -120,5 +120,3 @@ function NewPostPage() {
     </Card>
   );
 }
-
-export default NewPostPage;

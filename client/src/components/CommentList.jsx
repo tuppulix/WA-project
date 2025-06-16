@@ -9,7 +9,7 @@ import { useUser } from '../context/UserContext';
 dayjs.extend(customParseFormat);
 const TS_FMT = 'YYYY-MM-DD HH:mm:ss';
 
-function CommentList({ comments, refreshComments }) {
+export default function CommentList({ comments, refreshComments }) {
   /* ───────────────────────── state/context ───────────────────────── */
   const { user: currentUser } = useUser();
 
@@ -174,5 +174,3 @@ function CommentList({ comments, refreshComments }) {
     </ListGroup>
   );
 }
-
-export default CommentList;

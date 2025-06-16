@@ -1,41 +1,56 @@
 import { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card, Row, Col } from "react-bootstrap";
 import API from "../api/api";
 import { useUser } from "../context/UserContext";
 
-function LoginForm() {
+/**
+ * LoginForm component
+ *
+ * Handles both standard user login and admin login with OTP (2FA).
+ * The view can be toggled via an in‑component state instead of relying on URL parameters.
+ */
+export default function LoginForm() {
   const { loginSuccessful } = useUser();
   const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const isAdmin = params.get("admin") === "true";
 
-  const [email, setEmail] = useState(import.meta.env.DEV ? "marta.rossi@example.com" : "");
-  const [password, setPassword] = useState(import.meta.env.DEV ? "sunshine123" : "");
+  // Demo‑friendly defaults ― remove in production
+  const [email, setEmail] = useState("marta.rossi@example.com");
+  const [password, setPassword] = useState("sunshine123");
   const [otp, setOtp] = useState("");
+
   const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
-      const user = await API.login({ email, password, otp, adminLogin: isAdmin });
+      const user = await API.login({
+        email,
+        password,
+        otp,
+        adminLogin: isAdmin,
+      });
+
       loginSuccessful(user);
       navigate("/");
     } catch (err) {
       const msg =
-        err.response?.data?.message ||
-        err.error ||
-        err.message ||
-        "Login failed";
+        err.response?.data?.message || err.error || err.message || "Login failed";
       setError(msg);
       setPassword("");
       setOtp("");
     }
   };
 
-  const toggleLink = isAdmin ? location.pathname : `${location.pathname}?admin=true`;
+  const toggleAdmin = () => {
+    setIsAdmin((prev) => !prev);
+
+    setOtp("");
+    setError("");
+  };
 
   return (
     <Row className="justify-content-center mt-5">
@@ -44,9 +59,13 @@ function LoginForm() {
           className="shadow-lg"
           style={{ background: "linear-gradient(135deg, #a0e9fd, #4fc3f7)", color: "#03396c" }}
         >
-          <Card.Header className="text-center" style={{ background: "transparent", borderBottom: "none" }}>
-            <h3>{isAdmin ? "🔒 Admin Login" : "👤 User Login"}</h3>
+          <Card.Header
+            className="text-center"
+            style={{ background: "transparent", borderBottom: "none" }}
+          >
+            <h3>{isAdmin ? " Admin Login" : " User Login"}</h3>
           </Card.Header>
+
           <Card.Body style={{ background: "transparent" }}>
             {error && <Alert variant="danger">{error}</Alert>}
 
@@ -99,9 +118,13 @@ function LoginForm() {
             </Form>
 
             <div className="text-center mt-3">
-              <Link to={toggleLink} style={{ color: "#03396c", textDecoration: "underline" }}>
-                {isAdmin ? "🔓 Standard Login" : "🔒 Login as Admin"}
-              </Link>
+              <Button
+                variant="link"
+                onClick={toggleAdmin}
+                style={{ color: "#03396c", textDecoration: "underline" }}
+              >
+                {isAdmin ? " Standard Login" : " Login as Admin"}
+              </Button>
             </div>
           </Card.Body>
         </Card>
@@ -110,4 +133,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+

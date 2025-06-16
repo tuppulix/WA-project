@@ -8,17 +8,16 @@ import { useUser } from '../context/UserContext';
 dayjs.extend(customParseFormat);
 const TS_FMT = 'YYYY-MM-DD HH:mm:ss';
 
-function PostDetail({ post, onPostDeleted }) {
+export default function PostDetail({ post, onPostDeleted }) {
   const { user: currentUser } = useUser(); // Access current user from context
 
   const [error, setError] = useState('');             // Error message for deletion
   const [showConfirm, setShowConfirm] = useState(false); // Modal visibility state
 
   // Check if user can delete this post (author or authenticated admin)
-  const canDelete =
-    currentUser &&
-    (post.author_id === currentUser.id ||
-      (currentUser?.is_admin && currentUser?.isAdminAuthenticated));
+  const isAuthor      = currentUser && post.author_id === currentUser.id;
+  const isAuthAdmin   = Boolean(currentUser?.is_admin) && Boolean(currentUser?.isAdminAuthenticated);
+  const canDelete     = isAuthor || isAuthAdmin;
 
   const confirmDelete = () => setShowConfirm(true);    // Show confirmation modal
   const cancelDelete = () => setShowConfirm(false);    // Hide confirmation modal
@@ -96,4 +95,3 @@ function PostDetail({ post, onPostDeleted }) {
   );
 }
 
-export default PostDetail;

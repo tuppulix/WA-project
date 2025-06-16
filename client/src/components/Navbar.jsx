@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChatDots, PersonCircle } from 'react-bootstrap-icons';
 import { useUser } from '../context/UserContext';
 
-function NavbarComponent() {
+export default function NavbarComponent() {
   const navigate = useNavigate();
   const { user, handleLogout } = useUser();
 
@@ -125,4 +125,3 @@ function NavbarComponent() {
   );
 }
 
-export default NavbarComponent;

@@ -50,7 +50,7 @@ export default function PostPage() {
         setPost(p);
         // If user is logged in, load comments; always load comment count
         return Promise.all([
-          loadComments(),      // sempre carica i commenti, anche per anonimi
+          loadComments(),      //load comments for the post also for unauthenticated users
           loadCommentCount()
         ]);
       })
