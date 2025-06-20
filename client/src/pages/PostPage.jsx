@@ -126,6 +126,13 @@ export default function PostPage() {
         maxComments={post.max_comments}
         currentCount={commentCount}
       />
+
+      {/* Button to go to homepage */}
+      <div className="mt-4">
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>
+          Back to HomePage
+        </button>
+      </div>
     </Container>
   );
 }

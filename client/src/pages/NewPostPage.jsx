@@ -49,74 +49,83 @@ export default function NewPostPage() {
   };
 
   return (
-    // Card container for the new post form
-    <Card className="shadow-sm border-0 p-4" style={{ background: '#f8fbff', borderLeft: '4px solid #4fc3f7' }}>
-      {/* Page title with icon */}
-      <h3 className="mb-4 text-primary-emphasis d-flex align-items-center">
-        <PencilSquare className="me-2" />
-        Start a New Discussion
-      </h3>
+    <>
+      {/* Card container for the new post form */}
+      <Card className="shadow-sm border-0 p-4" style={{ background: '#f8fbff', borderLeft: '4px solid #4fc3f7' }}>
+        {/* Page title with icon */}
+        <h3 className="mb-4 text-primary-emphasis d-flex align-items-center">
+          <PencilSquare className="me-2" />
+          Start a New Discussion
+        </h3>
 
-      {/* Error alert if form fails */}
-      {error && <Alert variant="danger">{error}</Alert>}
+        {/* Error alert if form fails */}
+        {error && <Alert variant="danger">{error}</Alert>}
 
-      {/* New post form */}
-      <Form onSubmit={handleSubmit}>
-        {/* Title input */}
-        <Form.Group className="mb-3" controlId="postTitle">
-          <Form.Label className="fw-semibold">Post Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="e.g. How does async/await work under the hood?"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Form.Group>
+        {/* New post form */}
+        <Form onSubmit={handleSubmit}>
+          {/* Title input */}
+          <Form.Group className="mb-3" controlId="postTitle">
+            <Form.Label className="fw-semibold">Post Title</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="e.g. How does async/await work under the hood?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-        {/* Content input */}
-        <Form.Group className="mb-3" controlId="postText">
-          <Form.Label className="fw-semibold">Post Content</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={6}
-            placeholder="Explain your issue, question, or idea in detail..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            required
-          />
-        </Form.Group>
+          {/* Content input */}
+          <Form.Group className="mb-3" controlId="postText">
+            <Form.Label className="fw-semibold">Post Content</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={6}
+              placeholder="Explain your issue, question, or idea in detail..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-        <Row>
-          <Col md={6}>
-            {/* Optional maximum comments input.
-                If left empty, there will be no limit. Only accepts numbers >= 1. */}
-            <Form.Group className="mb-4" controlId="maxComments">
-              <Form.Label className="fw-semibold">Maximum Comments (optional)</Form.Label>
-              <Form.Control
-                type="number"
-                min="0"
-                placeholder="e.g. 10"
-                value={maxComments}
-                onChange={(e) => setMaxComments(e.target.value)}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+          <Row>
+            <Col md={6}>
+              {/* Optional maximum comments input.
+                  If left empty, there will be no limit. Only accepts numbers >= 1. */}
+              <Form.Group className="mb-4" controlId="maxComments">
+                <Form.Label className="fw-semibold">Maximum Comments (optional)</Form.Label>
+                <Form.Control
+                  type="number"
+                  min="0"
+                  placeholder="e.g. 10"
+                  value={maxComments}
+                  onChange={(e) => setMaxComments(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-        {/* Submit button */}
-        <div className="text-end">
-          <Button
-            type="submit"
-            size="lg"
-            variant="info"
-            className="fw-bold"
-            style={{ color: '#03396c' }}
-          >
-            Create Post
-          </Button>
-        </div>
-      </Form>
-    </Card>
+          {/* Submit button */}
+          <div className="text-end">
+            <Button
+              type="submit"
+              size="lg"
+              variant="info"
+              className="fw-bold"
+              style={{ color: '#03396c' }}
+            >
+              Create Post
+            </Button>
+          </div>
+        </Form>
+      </Card>
+
+      {/* Button to back to homepage */}
+      <div className="mt-3">
+        <Button variant="secondary" onClick={() => navigate('/')}>
+          Back to HomePage
+        </Button>
+      </div>
+    </>
   );
 }
